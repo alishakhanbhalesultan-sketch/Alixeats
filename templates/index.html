@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AlixEat – Big flavours, delivered with a grin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;800&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff3d6;--card:#fff;--ink:#2a1a2e;--mute:#7b6a7d;--chili:#d62839;--saffron:#ffb000;--leaf:#1f8a5b;--line:#f0dcae}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1e1420;--card:#2c1e30;--ink:#fbefd9;--mute:#b9a5bb;--line:#463049}}
+:root[data-theme="dark"]{--bg:#1e1420;--card:#2c1e30;--ink:#fbefd9;--mute:#b9a5bb;--line:#463049}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif}
+h1,h2,h3,.brand{font-family:'Baloo 2',Nunito,system-ui,sans-serif;line-height:1.1;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--chili);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:3px solid var(--saffron);display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-size:1.7rem;font-weight:800;background:none;border:0;padding:0}
+.brand b{color:var(--chili)}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto;align-items:center}
+nav button{background:none;border:0;padding:8px 12px;border-radius:99px;font-weight:800}
+nav button:hover,nav button.on{background:var(--saffron);color:#2a1a2e}
+.pill{background:var(--chili);color:#fff;border-radius:99px;padding:0 7px;font-size:.8rem;margin-left:4px}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center;background:radial-gradient(circle at 88% 12%,#ff7a2f 0,transparent 42%),radial-gradient(circle at 5% 100%,#8f1424 0,transparent 45%),var(--chili);color:#fff;border-radius:28px;padding:36px 32px;overflow:visible}
+.hero h1{font-size:clamp(2rem,6vw,3.6rem);font-weight:800}
+.hero p{font-size:1.1rem;margin:12px 0 18px;max-width:34ch}
+.stage{position:relative;justify-self:center;width:100%;max-width:280px}.stage>svg{width:100%;transform:rotate(-4deg)}
+.btn{background:var(--saffron);color:#2a1a2e;border:0;border-radius:14px;padding:11px 20px;font-weight:800}
+.btn.alt{
+    background:#2c1e30;
+    color:#ffffff !important;
+    border:2px solid #ffffff;
+}
+.btn.sm{padding:6px 12px;border-radius:10px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+h2{font-size:1.7rem;margin:32px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;overflow:hidden;text-align:left}
+.card.click{cursor:pointer;transition:transform .15s}
+.card.click:hover{transform:translateY(-3px);border-color:var(--saffron)}
+.pic{height:130px;display:grid;place-items:center;overflow:hidden}.art{width:100%;height:100%;display:block}
+.body{padding:12px 14px 14px}
+.body h3{font-size:1.2rem}
+.mute{color:var(--mute);font-size:.9rem}
+.tag{display:inline-block;background:var(--bg);border-radius:99px;padding:1px 10px;font-size:.8rem;font-weight:800;margin:6px 4px 0 0}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+input,select,textarea{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+.bar input{flex:1;min-width:200px;width:auto}.bar select{width:auto}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:5px 14px;font-weight:800}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px}
+.auth{max-width:420px;margin:20px auto;display:grid;gap:10px}
+.auth h1{color:var(--ink)}
+.auth label{color:var(--ink)}
+.auth input{color:var(--ink);background:var(--card)}
+.auth input::placeholder{color:var(--mute)}
+.auth label{font-weight:800;font-size:.9rem}
+.err{color:var(--chili);font-weight:800}
+.cartrow{display:grid;grid-template-columns:48px 1fr auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);background:none;font-weight:800}
+.tot{display:flex;justify-content:space-between;padding:4px 0}.tot.big{font:800 1.4rem 'Baloo 2',sans-serif;border-top:2px solid var(--ink);margin-top:8px;padding-top:10px}
+.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.track{display:flex;gap:6px;margin:12px 0}
+.track div{flex:1;text-align:center;font-size:.78rem;font-weight:800;padding:6px 2px;border-radius:10px;background:var(--bg);color:var(--mute)}
+.track div.done{background:var(--leaf);color:#fff}
+.modal{position:fixed;inset:0;background:rgba(20,10,25,.6);display:grid;place-items:center;padding:16px;z-index:9}
+.modal .card{max-width:420px;width:100%}
+.modal .pic{height:170px;font-size:5.5rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:800;z-index:10}
+.hs{display:flex;gap:8px;background:#fff;border-radius:16px;padding:6px;max-width:460px}.hs input{border:0;color:#2a1a2e;background:transparent}
+.hero .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.hero .chip{background:rgba(255,255,255,.18);border-color:transparent;color:#fff}.hero .chip:hover{background:#fff;color:var(--chili)}
+.fl{position:absolute;width:30%;aspect-ratio:1;background:#fff;border-radius:50%;border:3px solid var(--saffron);overflow:hidden;animation:bob 4s ease-in-out infinite}.f1{top:-6%;left:-14%}.f2{top:2%;right:-16%;animation-delay:-1.3s}.f3{bottom:-2%;right:-8%;animation-delay:-2.6s}@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin:16px 4px 0;font-weight:800}.stats b{font:800 1.6rem 'Baloo 2',sans-serif;color:var(--chili)}
+@media(max-width:700px){.hero,.cols{grid-template-columns:1fr}.stage{max-width:190px}.cartrow{grid-template-columns:40px 1fr auto}.cartrow>b{grid-column:2}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+main{padding-bottom:90px}
+.rail{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity}.rail>*{flex:none;scroll-snap-align:start}
+.tile{background:none;border:0;width:104px;text-align:center;font-weight:800;font-size:.9rem;padding:0}
+.tile span{display:block;width:96px;height:96px;border-radius:50%;margin:0 auto 6px;overflow:hidden}.tile span svg{width:100%;height:100%}
+.rc{width:250px;cursor:pointer;text-align:left}.rc h3{font-size:1.15rem}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px 16px}.rgrid .rc{width:auto}
+.rimg{position:relative;height:160px;border-radius:20px;overflow:hidden;margin-bottom:8px}.rimg>svg{width:100%;height:100%}
+.off{position:absolute;left:0;right:0;bottom:0;padding:24px 10px 8px;color:#fff;font:800 1.05rem 'Baloo 2',sans-serif;background:linear-gradient(transparent,rgba(0,0,0,.78))}
+.rm{font-weight:800;display:flex;gap:6px;align-items:center}
+.rate{background:var(--leaf);color:#fff;border-radius:99px;padding:0 8px;font-size:.85rem}
+.rh{padding:14px 0;border-bottom:2px dashed var(--line)}.offs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.off2{border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:800;font-size:.85rem;background:var(--card)}
+.mr{display:flex;justify-content:space-between;gap:16px;padding:20px 0 26px;border-bottom:1px solid var(--line)}.mr.out{opacity:.5}
+.mi{flex:1;min-width:0}.mi h3{font-size:1.15rem;margin:4px 0}.mi p{margin:6px 0 0}
+.mp{position:relative;width:132px;flex:none;text-align:center}
+.mimg{height:110px;border-radius:16px;overflow:hidden}.mimg svg{width:100%;height:100%}
+.addb,.stp{position:absolute;left:50%;transform:translateX(-50%);bottom:-16px;width:96px;height:36px;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--leaf);font-weight:800;display:flex;align-items:center;justify-content:space-around;padding:0}
+.stp button{background:none;border:0;font-weight:800;font-size:1.2rem;color:var(--leaf);width:30px}.so{position:absolute;left:50%;transform:translateX(-50%);bottom:-12px}
+.dot{display:inline-block;width:16px;height:16px;border:2px solid;border-radius:3px;position:relative;vertical-align:-2px}.dot:after{content:"";position:absolute;inset:2px;border-radius:50%;background:currentColor}
+.dot.v{color:var(--leaf)}.dot.nv{color:var(--chili)}
+.cbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--leaf);color:#fff;padding:14px 18px calc(14px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;font-weight:800;border:0;width:100%}
+.chiprow{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}.chiprow .chip{flex:none}
+</style>
+</head>
+<body>
+<header><button class="brand" data-act="go" data-v="home" aria-label="AlixEat home"><span id="logo"></span>Alix<b>Eat</b></button><nav id="nav"></nav></header>
+<main id="app"></main>
+<div id="modal"></div><div id="toast"></div><div id="cbar"></div>
+<script>
+/* ---------- Mascot logo: original mischievous cartoon kid in a white chef cap ---------- */
+const mascot=()=>`<svg viewBox="0 0 100 100" role="img" aria-label="AlixEat mascot"><g stroke="#2a1a2e" stroke-width="3" stroke-linejoin="round"><circle cx="23" cy="66" r="5.5" fill="#ffcf9e"/><circle cx="77" cy="66" r="5.5" fill="#ffcf9e"/><path d="M27 50 L20 40 L31 44 L34 34 L42 44 Z M73 50 L80 40 L69 44 L66 34 L58 44Z" fill="#e4572e"/><circle cx="50" cy="65" r="27" fill="#ffcf9e"/><g fill="#fff"><circle cx="33" cy="27" r="14"/><circle cx="50" cy="19" r="16"/><circle cx="67" cy="27" r="14"/><rect x="28" y="33" width="44" height="15" rx="4"/></g><circle cx="40" cy="63" r="6" fill="#fff"/><circle cx="60" cy="63" r="6" fill="#fff"/><path d="M34 74 Q50 94 66 74 Z" fill="#c1121f"/><path d="M33 53 L46 58 M67 53 L54 58" fill="none" stroke-linecap="round" stroke-width="4"/></g><circle cx="42" cy="64" r="2.6" fill="#2a1a2e"/><circle cx="58" cy="64" r="2.6" fill="#2a1a2e"/><path d="M44 76h4v4h-4z" fill="#fff"/><circle cx="31" cy="72" r="3" fill="#ff8a80" opacity=".7"/><circle cx="69" cy="72" r="3" fill="#ff8a80" opacity=".7"/></svg>`;
+document.getElementById('logo').innerHTML=mascot();
+document.getElementById('logo').style.cssText='width:44px;height:44px;display:block';
+
+/* ---------- Data (prices in ₹ are illustrative) ---------- */
+let R=[
+{id:1,n:"Karim's",cui:'Mughlai',e:'🍖',rt:4.4,eta:'35-45',about:'Serving Old Delhi royalty near Jama Masjid since 1913.'},
+{id:2,n:'Paragon',cui:'Biryani',e:'🍛',rt:4.5,eta:'30-40',about:'Malabar classic since 1939, famed for its biryani and Kerala seafood.'},
+{id:3,n:'Bademiya',cui:'Kebabs',e:'🍢',rt:4.3,eta:'25-35',about:'Colaba\'s legendary kebab counter, grilling since 1946.'},
+{id:4,n:'Britannia & Co.',cui:'Parsi',e:'🍚',rt:4.6,eta:'40-50',about:'Iconic Parsi café in Ballard Estate since 1923.'},
+{id:5,n:'Rameshwaram Cafe',cui:'South Indian',e:'🥞',rt:4.7,eta:'20-30',about:'Bengaluru\'s buzzing home of ghee podi idli and filter coffee.'},
+{id:6,n:'Sardar Pav Bhaji',cui:'Street Food',e:'🍞',rt:4.5,eta:'20-30',about:'Tardeo\'s butter-laden pav bhaji stop since 1966.'}];
+// id, restaurant, name, description, price, emoji, type, available, popular
+let D=[
+[1,1,'Mutton Burra','Charcoal-grilled marinated mutton chops',380,'🍖','non',1,1],
+[2,1,'Chicken Jahangiri','Rich, creamy Mughlai chicken curry',320,'🍗','non',1,0],
+[3,1,'Mutton Nihari','Slow-cooked shank stew, served with naan',350,'🥘','non',1,1],
+[4,1,'Shahi Tukda','Fried bread in saffron rabri',140,'🍮','sweet',0,0],
+[5,2,'Malabar Chicken Biryani','Fragrant kaima rice layered with spiced chicken',290,'🍛','non',1,1],
+[6,2,'Kerala Parotta (2 pc)','Flaky layered flatbread',60,'🥯','veg',1,0],
+[7,2,'Karimeen Pollichathu','Pearl spot fish wrapped in banana leaf',420,'🐟','non',1,0],
+[8,2,'Elaneer Payasam','Tender coconut pudding',110,'🥥','sweet',1,0],
+[9,3,'Seekh Kebab','Minced mutton skewers off the tandoor',260,'🍢','non',1,1],
+[10,3,'Chicken Tikka Roll','Smoky tikka wrapped in rumali roti',180,'🌯','non',1,1],
+[11,3,'Chicken Butter Masala','Creamy tomato gravy, buttery finish',340,'🍲','non',1,0],
+[12,3,'Baida Roti','Egg-stuffed crispy flatbread',150,'🥚','non',1,0],
+[13,4,'Berry Pulao','Signature Persian-style pulao with tart berries',490,'🍚','non',1,1],
+[14,4,'Sali Boti','Mutton in tangy gravy topped with potato straws',420,'🥩','non',1,0],
+[15,4,'Caramel Custard','Silky baked custard',120,'🍮','sweet',1,0],
+[16,4,'Raspberry Soda','Fizzy, sweet-tart Parsi classic',90,'🥤','sweet',1,0],
+[17,5,'Ghee Podi Idli','Mini idlis tossed in ghee and spice powder',110,'🍘','veg',1,1],
+[18,5,'Ghee Podi Dosa','Crisp dosa brushed with ghee and podi',130,'🥞','veg',1,1],
+[19,5,'Filter Coffee','Frothy South Indian decoction coffee',45,'☕','sweet',1,0],
+[20,5,'Bisi Bele Bath','Spicy lentil and rice one-pot',120,'🍲','veg',1,0],
+[21,6,'Pav Bhaji','Buttery mashed vegetable curry with soft pav',210,'🍞','veg',1,1],
+[22,6,'Cheese Pav Bhaji','The classic, blanketed in cheese',260,'🧀','veg',1,0],
+[23,6,'Masala Pav','Pav griddled with spicy masala',150,'🥖','veg',1,0],
+[24,6,'Sweet Lassi','Chilled thick yoghurt drink',90,'🥛','sweet',1,0]
+].map(a=>({id:a[0],r:a[1],n:a[2],d:a[3],p:a[4],e:a[5],t:a[6],a:a[7],pop:a[8]}));
+R.push(...`Peter Cat|Kolkata|Mughlai|🍚|4.5|35-45|Park Street favourite known for Chelo Kebab.
+Bikanervala|Delhi|Sweets & Snacks|🥙|4.3|25-35|Beloved for chaat, kachori and mithai.
+Saravana Bhavan|Chennai|South Indian|🥞|4.4|25-35|Pure-vegetarian South Indian classics.
+Kesar Da Dhaba|Amritsar|Punjabi|🍲|4.6|35-45|Old-school Amritsar dhaba famed for dal and parathas.
+Amrik Sukhdev|Murthal|Punjabi|🫓|4.4|30-40|Highway legend for stuffed parathas with white butter.
+Bukhara|Delhi|Mughlai|🍖|4.8|50-60|Fine-dining tandoor and the celebrated Dal Bukhara.
+Arsalan|Kolkata|Biryani|🍛|4.5|35-45|Kolkata biryani with its signature potato and egg.
+Hotel Shadab|Hyderabad|Biryani|🍛|4.4|35-45|Old City institution for biryani and haleem.
+Paradise|Hyderabad|Biryani|🍛|4.5|35-45|Hyderabad's best-known dum biryani house.
+Ashok Vada Pav|Mumbai|Street Food|🍔|4.3|15-25|Dadar's much-loved vada pav stall.
+Old Famous Jalebi Wala|Delhi|Sweets & Snacks|🍥|4.6|25-35|Chandni Chowk jalebis fried fresh and hot.
+Ghantewala|Delhi|Sweets & Snacks|🍡|4.4|30-40|Chandni Chowk mithai shop known for ladoos.
+Paranthe Wali Gali|Delhi|Punjabi|🫓|4.3|25-35|Chandni Chowk lane of stuffed parathas.
+Natraj Dahi Bhalla|Delhi|Street Food|🥣|4.5|20-30|Chandni Chowk chaat stall famed for dahi bhalla.
+Nizam's|Kolkata|Street Food|🌯|4.4|25-35|Kolkata's home of the kathi roll.
+Mahesh Lunch Home|Mumbai|Seafood|🦀|4.5|40-50|Fort's seafood favourite for crab and pomfret.
+Rawat Mishthan Bhandar|Jaipur|Street Food|🥟|4.5|20-30|Jaipur's pyaaz kachori legend.
+Tunday Kababi|Lucknow|Kebabs|🍢|4.6|30-40|Lucknow's melt-in-mouth galouti kebab.
+Prakash Kulfi|Lucknow|Desserts|🍨|4.5|20-30|Lucknow's classic kulfi falooda.
+Ritz Classic|Panaji|Seafood|🍛|4.3|35-45|Goan thali and fresh fish specialities.
+Agashiye|Ahmedabad|Gujarati|🍽️|4.6|40-50|Rooftop Gujarati thali in a heritage haveli.
+Kashi Chat Bhandar|Varanasi|Street Food|🍅|4.5|20-30|Varanasi's famous tamatar chaat.
+Kulcha Land|Amritsar|Punjabi|🫓|4.4|25-35|Amritsari kulcha with spicy chole.
+Ram Ashraya|Mumbai|South Indian|🍘|4.4|20-30|Matunga's classic idli-vada breakfast spot.`.split('\n').map((l,i)=>{const a=l.split('|');return{id:7+i,n:a[0],cui:a[2],e:a[3],rt:+a[4],eta:a[5],about:a[6]}}));
+D.push(...`7|Chelo Kebab|Persian-style buttered rice with kebabs and egg yolk|520|🍚|non|1
+7|Sizzling Brownie|Hot brownie with vanilla ice cream|280|🍫|sweet|0
+8|Raj Kachori|Crisp shell stuffed with chutneys, curd and sev|150|🥙|veg|1
+8|Kaju Katli|Cashew fudge diamonds|220|🍬|sweet|0
+9|Ghee Roast Dosa|Paper-thin, ghee-rich crisp dosa|140|🥞|veg|1
+9|South Indian Meals|Rice, sambar, rasam, poriyal and curd|220|🍛|veg|0
+10|Dal Makhani|Slow-cooked black lentils in butter|240|🍲|veg|1
+10|Amritsari Lassi|Thick sweet yoghurt drink topped with malai|110|🥛|sweet|0
+11|Aloo Paratha|Stuffed flatbread with white butter|130|🫓|veg|1
+11|Paneer Paratha|Griddled flatbread packed with spiced paneer|150|🫓|veg|0
+12|Sikandari Raan|Whole leg of lamb, slow-roasted in the tandoor|1800|🍖|non|1
+12|Dal Bukhara|Overnight-simmered black lentils|750|🍲|veg|0
+13|Kolkata Chicken Biryani|Aromatic rice with chicken, egg and potato|320|🍛|non|1
+13|Chicken Rezala|Mild, creamy white curry|340|🍗|non|0
+14|Hyderabadi Mutton Biryani|Dum-cooked with saffron and mint|360|🍛|non|1
+14|Double Ka Meetha|Fried bread pudding with dry fruits|110|🍮|sweet|0
+15|Chicken Dum Biryani|Hyderabadi biryani sealed and slow cooked|330|🍛|non|1
+15|Mirchi Ka Salan|Peanut and sesame chilli curry|120|🌶️|veg|0
+16|Vada Pav|Spicy potato fritter in a soft bun|35|🍔|veg|1
+16|Cheese Vada Pav|Fritter with melted cheese|60|🧀|veg|0
+17|Jalebi with Rabri|Crisp saffron spirals with thick milk|120|🍥|sweet|1
+17|Imarti|Lentil batter sweet soaked in syrup|100|🍥|sweet|0
+18|Motichoor Ladoo|Fine boondi ladoos in ghee|180|🍡|sweet|1
+18|Rasmalai|Soft cheese discs in saffron milk|160|🍮|sweet|0
+19|Gobhi Paratha|Cauliflower-stuffed fried paratha|110|🫓|veg|1
+19|Mixed Veg Paratha|Stuffed with seasonal vegetables|120|🫓|veg|0
+20|Dahi Bhalla|Soft lentil dumplings in curd and chutneys|90|🥣|veg|1
+20|Aloo Tikki Chaat|Crispy potato patties with toppings|100|🥔|veg|0
+21|Mutton Kathi Roll|Skewer-cooked mutton in a paratha wrap|190|🌯|non|1
+21|Egg Chicken Roll|Egg-coated paratha with chicken tikka|170|🌯|non|0
+22|Butter Garlic Crab|Crab tossed in butter and garlic|1200|🦀|non|1
+22|Surmai Tawa Fry|Rava-crusted kingfish|650|🐟|non|0
+23|Pyaaz Kachori|Flaky kachori stuffed with spicy onion|50|🥟|veg|1
+23|Mawa Kachori|Sweet kachori dunked in sugar syrup|70|🥟|sweet|0
+24|Galouti Kebab|Melt-in-mouth minced mutton patties|340|🍢|non|1
+24|Ulte Tawe Ka Paratha|Layered paratha cooked on an upturned griddle|40|🫓|veg|0
+25|Kulfi Falooda|Dense kulfi with rose vermicelli|150|🍨|sweet|1
+25|Mango Kulfi|Frozen milk dessert with mango|100|🍨|sweet|0
+26|Goan Fish Thali|Fish curry, fried fish, rice and sol kadhi|420|🍛|non|1
+26|Prawn Balchao|Tangy, spicy pickled prawns|450|🍤|non|0
+27|Gujarati Thali|Farsan, dal, kadhi, shaak, roti and sweets|900|🍽️|veg|1
+27|Dhokla|Steamed fermented gram flour cakes|110|🟨|veg|0
+28|Tamatar Chaat|Spiced tomato chaat with a ghee-fried crunch|80|🍅|veg|1
+28|Palak Chaat|Crisp spinach fritters with chutneys|90|🥬|veg|0
+29|Amritsari Kulcha|Stuffed tandoori bread with chole|150|🫓|veg|1
+29|Chole Bhature|Chickpea curry with fluffy fried bread|160|🍛|veg|0
+30|Idli Vada|Steamed idli with a crisp medu vada|100|🍘|veg|1
+30|Filter Kaapi|Strong, milky South Indian coffee|40|☕|sweet|0`.split('\n').map((l,i)=>{const a=l.split('|');return{id:25+i,r:+a[0],n:a[1],d:a[2],p:+a[3],e:a[4],t:a[5],a:1,pop:+a[6]}}));
+/* ---------- Food illustrations (inline SVG, no external images) ---------- */
+const ART={
+rice:`<path d="M24 62Q60 8 96 62Z" fill="#ffe08a"/><g fill="#d9772b"><circle cx="48" cy="46" r="5"/><circle cx="70" cy="40" r="5.5"/><circle cx="60" cy="54" r="5"/></g><g fill="#3d9a4f"><circle cx="78" cy="54" r="3"/><circle cx="40" cy="57" r="3"/><circle cx="60" cy="30" r="3"/></g>`,
+thali:`<circle cx="38" cy="52" r="11" fill="#e2751d"/><circle cx="62" cy="46" r="11" fill="#f2c94c"/><circle cx="84" cy="54" r="11" fill="#7cb342"/><circle cx="48" cy="74" r="10" fill="#fff8e1"/><circle cx="74" cy="76" r="10" fill="#c1121f"/><ellipse cx="60" cy="62" rx="9" ry="6" fill="#e3a852"/>`,
+kebab:`<path d="M12 82L108 30" stroke="#b08050" stroke-width="3" stroke-linecap="round"/><g fill="#a5461f"><rect x="24" y="60" width="20" height="14" rx="6" transform="rotate(-28 34 67)"/><rect x="52" y="45" width="20" height="14" rx="6" transform="rotate(-28 62 52)"/><rect x="80" y="30" width="20" height="14" rx="6" transform="rotate(-28 90 37)"/></g><circle cx="47" cy="59" r="5" fill="#7cb342"/><circle cx="76" cy="44" r="5" fill="#e2751d"/><circle cx="98" cy="80" r="9" fill="#fde047"/>`,
+roll:`<g transform="rotate(-16 60 58)"><rect x="20" y="42" width="80" height="32" rx="16" fill="#f0c27a" stroke="#c98a3d" stroke-width="2"/><ellipse cx="98" cy="58" rx="8" ry="14" fill="#7a3b1d"/><circle cx="98" cy="53" r="3" fill="#7cb342"/><circle cx="99" cy="62" r="3" fill="#e2751d"/></g>`,
+curry:`<path d="M20 50h80a40 32 0 0 1-80 0z" fill="#8a4b2a"/><ellipse cx="60" cy="50" rx="40" ry="10" fill="#e2751d"/><circle cx="48" cy="50" r="5" fill="#a5361a"/><circle cx="70" cy="49" r="5" fill="#a5361a"/><path d="M52 47q8-4 16 1" stroke="#fff3d6" stroke-width="2.5" fill="none"/><circle cx="60" cy="52" r="2.5" fill="#3d9a4f"/>`,
+flat:`<ellipse cx="60" cy="70" rx="44" ry="15" fill="#b87a30"/><ellipse cx="60" cy="61" rx="44" ry="15" fill="#d99a45"/><ellipse cx="60" cy="52" rx="44" ry="15" fill="#f2c273"/><g fill="#8a4b1a"><circle cx="42" cy="50" r="2.5"/><circle cx="66" cy="54" r="2.5"/><circle cx="80" cy="49" r="2"/></g><rect x="52" y="38" width="16" height="9" rx="2" fill="#ffe56b"/>`,
+bun:`<ellipse cx="40" cy="68" rx="22" ry="14" fill="#e3ad60"/><ellipse cx="80" cy="68" rx="22" ry="14" fill="#e3ad60"/><ellipse cx="60" cy="50" rx="28" ry="13" fill="#d9481c"/><ellipse cx="60" cy="47" rx="20" ry="7" fill="#f2703a"/><rect x="54" y="34" width="12" height="9" rx="2" fill="#ffe56b"/><circle cx="52" cy="48" r="2" fill="#7cb342"/>`,
+dosa:`<path d="M10 70Q60 14 110 54Q62 86 10 70Z" fill="#e9ad4d"/><path d="M14 68Q60 24 104 54" fill="none" stroke="#c98a3d" stroke-width="3"/><circle cx="34" cy="84" r="8" fill="#fff"/><circle cx="34" cy="84" r="5" fill="#7cb342"/><circle cx="90" cy="84" r="8" fill="#fff"/><circle cx="90" cy="84" r="5" fill="#e2751d"/>`,
+idli:`<g fill="#fffdf5" stroke="#e5dcc6" stroke-width="2"><ellipse cx="40" cy="64" rx="17" ry="11"/><ellipse cx="72" cy="58" rx="17" ry="11"/><ellipse cx="56" cy="46" rx="17" ry="11"/></g><circle cx="94" cy="76" r="9" fill="#fff"/><circle cx="94" cy="76" r="6" fill="#7cb342"/><g fill="#c1121f"><circle cx="50" cy="44" r="1.6"/><circle cx="60" cy="46" r="1.6"/><circle cx="66" cy="42" r="1.6"/></g>`,
+cup:`<path d="M36 30h48l-6 46a6 6 0 0 1-6 6H48a6 6 0 0 1-6-6z" fill="#fff8ee" stroke="#d9c7a3" stroke-width="2"/><path d="M39 40h42l-1.5 12h-39z" fill="#8b5a2b"/><path d="M84 40h6a8 8 0 0 1 0 16h-8" fill="none" stroke="#d9c7a3" stroke-width="3"/><path d="M52 24q-4-7 0-13M66 24q-4-7 0-13" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+kulfi:`<circle cx="60" cy="38" r="24" fill="#f8c8d8"/><circle cx="46" cy="30" r="3" fill="#fff"/><path d="M40 56h40L60 94z" fill="#e0a95e"/><path d="M48 58l12 30M60 58l6 24M72 58l-6 24" stroke="#c98a3d" stroke-width="1.5"/><g fill="#7cb342"><circle cx="66" cy="34" r="2"/><circle cx="54" cy="44" r="2"/><circle cx="72" cy="46" r="2"/></g>`,
+sweet:`<g fill="#f59e0b"><circle cx="42" cy="62" r="14"/><circle cx="78" cy="62" r="14"/><circle cx="60" cy="44" r="14"/></g><g fill="#fcd34d" opacity=".8"><circle cx="37" cy="57" r="4"/><circle cx="73" cy="57" r="4"/><circle cx="55" cy="39" r="4"/></g><g fill="#3d9a4f"><circle cx="60" cy="46" r="2.5"/><circle cx="42" cy="64" r="2.5"/><circle cx="78" cy="64" r="2.5"/></g>`,
+fish:`<path d="M18 60Q50 28 88 60Q50 92 18 60z" fill="#e08a3c"/><path d="M86 60l18-16v32z" fill="#c96f24"/><circle cx="36" cy="56" r="3.5" fill="#2a1a2e"/><path d="M48 46q6 14 0 28M62 45q6 15 0 30" stroke="#b8621d" stroke-width="2" fill="none"/><circle cx="96" cy="86" r="9" fill="#fde047"/><circle cx="96" cy="86" r="5" fill="#fef9c3"/>`,
+chaat:`<path d="M24 54h72a36 28 0 0 1-72 0z" fill="#fff8ee" stroke="#e5dcc6" stroke-width="2"/><ellipse cx="60" cy="54" rx="36" ry="9" fill="#f2d16b"/><g fill="#c1121f"><circle cx="46" cy="52" r="3"/><circle cx="64" cy="55" r="3"/><circle cx="76" cy="50" r="3"/></g><g fill="#3d9a4f"><circle cx="54" cy="50" r="2.5"/><circle cx="70" cy="53" r="2.5"/></g><path d="M40 48l10-8M56 46l8-9M72 46l10-7" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>`};
+const kind=f=>{const s=(f.n+' '+f.d).toLowerCase();return /roll/.test(s)?'roll':/thali|meals/.test(s)?'thali':/dosa/.test(s)?'dosa':/idli/.test(s)?'idli':/pav|vada/.test(s)?'bun':/biryani|pulao|chelo/.test(s)?'rice':/kulfi|falooda/.test(s)?'kulfi':/coffee|kaapi|lassi|soda/.test(s)?'cup':/fish|karimeen|surmai|crab|prawn/.test(s)?'fish':/chaat|bhalla|kachori|dhokla/.test(s)?'chaat':/jalebi|imarti|ladoo|katli|meetha|rasmalai|custard|payasam|brownie|tukda/.test(s)?'sweet':/kebab|burra|raan|tikka/.test(s)?'kebab':/paratha|parotta|kulcha|roti|bhature/.test(s)?'flat':'curry'};
+const art=f=>`<svg class="art" viewBox="0 0 120 100" role="img" aria-label="${f.n}"><ellipse cx="60" cy="72" rx="52" ry="22" fill="#fff" opacity=".85"/>${ART[kind(f)]}</svg>`;
+const TL={veg:'🟢 Veg',non:'🔴 Non-veg',sweet:'🍮 Sweet & drinks'};
+const rr=id=>R.find(r=>r.id==id), dd=id=>D.find(d=>d.id==id);
+const STAGES=['Placed','Preparing','Out for delivery','Delivered'], STEP=25000, FEE=40;
+
+/* ---------- Storage (browser demo database) ---------- */
+const mem={};
+const st={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return k in mem?mem[k]:d}},set(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const hash=async p=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(p)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+const S={v:'home',rid:null,q:'',cat:'All',flt:{},sort:'rel',vo:0,type:'All',price:'All',user:st.get('session',null),cart:st.get('cart',{}),msg:'',det:{}};
+const $=s=>document.querySelector(s), inr=n=>'₹'+n.toLocaleString('en-IN');
+const orders=()=>st.get('orders',[]).filter(o=>S.user&&o.uid===S.user.id);
+const cartItems=()=>Object.entries(S.cart).map(([id,q])=>({f:dd(id),q})).filter(x=>x.f);
+const sub=()=>cartItems().reduce((s,x)=>s+x.f.p*x.q,0), count=()=>cartItems().reduce((s,x)=>s+x.q,0);
+const stage=o=>Math.min(3,Math.floor((Date.now()-o.ts)/STEP));
+function toast(m){const t=$('#toast');t.innerHTML='<div class="toast" role="status">'+m+'</div>';setTimeout(()=>t.innerHTML='',2200)}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Components ---------- */
+const hue=id=>`hsl(${(id*47)%360} 85% 88%)`;
+const OFF=['20% OFF UPTO ₹50','FLAT ₹100 OFF','FREE DELIVERY','ITEMS AT ₹99','₹125 OFF ABOVE ₹249'];
+const off=r=>OFF[r.id%5],em=r=>parseInt(r.eta),menu=r=>D.filter(f=>f.r==r.id);
+const avg=r=>Math.round(menu(r).reduce((s,f)=>s+f.p,0)/menu(r).length/10)*10,pureVeg=r=>menu(r).every(f=>f.t!='non');
+const dot=t=>`<span class="dot ${t=='non'?'nv':'v'}" title="${t=='non'?'Non-veg':'Veg'}"></span>`;
+const rcard=r=>`<div class="rc" role="button" tabindex="0" data-act="rest" data-id="${r.id}"><div class="rimg" style="background:${hue(r.id+3)}">${art(menu(r)[0])}<span class="off">${off(r)}</span></div><h3>${r.n}</h3><div class="rm"><span class="rate">★ ${r.rt}</span> ${r.eta} mins</div><div class="mute">${r.cui}</div><div class="mute">₹${avg(r)} for one</div></div>`;
+const ctrl=f=>{const q=S.cart[f.id];return !f.a?'<span class="tag so">Sold out</span>':q?`<div class="stp"><button data-act="dec" data-id="${f.id}" aria-label="Decrease">−</button><b>${q}</b><button data-act="inc" data-id="${f.id}" aria-label="Increase">+</button></div>`:`<button class="addb" data-act="add" data-id="${f.id}">ADD</button>`};
+const mrow=f=>`<div class="mr ${f.a?'':'out'}"><div class="mi">${dot(f.t)}<h3>${f.n}</h3><b>${inr(f.p)}</b><p class="mute">${f.d}</p></div><div class="mp"><div class="mimg click" role="button" tabindex="0" data-act="dish" data-id="${f.id}" style="background:${hue(f.id)}">${art(f)}</div>${ctrl(f)}</div></div>`;
+const fcard=(f,showR=1)=>`<div class="card"><div class="pic click" role="button" tabindex="0" data-act="dish" data-id="${f.id}" style="background:${hue(f.id)}">${art(f)}</div><div class="body"><h3>${dot(f.t)} ${f.n}</h3>${showR?`<div class="mute">${rr(f.r).n}</div>`:''}<div class="mute">${f.d}</div><div class="row" style="margin-top:8px"><b>${inr(f.p)}</b>${f.a?`<button class="btn sm" data-act="add" data-id="${f.id}">Add</button>`:'<span class="tag">Sold out</span>'}</div></div></div>`;
+function nav(){$('#cbar').innerHTML=count()&&!['cart','checkout'].includes(S.v)?`<button class="cbar" data-act="go" data-v="cart"><span>${count()} item${count()>1?'s':''} · ${inr(sub())}</span><span>View cart</span></button>`:'';const l=[['home','Home'],['restaurants','Restaurants'],['dishes','Search']];
+$('#nav').innerHTML=l.map(([v,t])=>`<button data-act="go" data-v="${v}" class="${S.v==v?'on':''}">${t}</button>`).join('')+
+`<button data-act="go" data-v="cart" class="${S.v=='cart'?'on':''}">🛒 Cart${count()?`<span class="pill">${count()}</span>`:''}</button><button data-act="go" data-v="orders" class="${S.v=='orders'?'on':''}">Orders</button>`+
+(S.user?`<button data-act="logout">Logout (${esc(S.user.name.split(' ')[0])})</button>`:`<button data-act="go" data-v="login">Login</button><button class="btn sm" data-act="go" data-v="register">Sign up</button>`)}
+
+/* ---------- Views ---------- */
+const V={
+home(){const rec=orders().slice(-2).reverse(),pr=[...R].sort((a,b)=>b.rt-a.rt).slice(0,6);
+return `<section class="hero"><div><h1>${S.user?'Welcome back, '+esc(S.user.name.split(' ')[0])+'!':'Big flavours, delivered with a grin.'}</h1><p>${S.user?'What are we tasting today?':'Karim\'s kebabs, Paragon biryani, Rameshwaram idlis – India\'s famous dishes at your door.'}</p><div class="hs"><input id="hq" placeholder="Try biryani, dosa, kebab…" aria-label="Search food"><button class="btn" data-act="hsearch">Find food</button></div><div class="chips">${['Biryani','Kebab','Dosa','Chaat','Jalebi','Thali'].map(c=>`<button class="chip" data-act="qs" data-q="${c}">${c}</button>`).join('')}</div>${S.user?'':'<button class="btn alt" style="margin-top:14px" data-act="go" data-v="register">Create free account</button>'}</div><div class="stage">${mascot()}<span class="fl f1">${art(dd(5))}</span><span class="fl f2">${art(dd(17))}</span><span class="fl f3">${art(dd(9))}</span></div></section><h2>What's on your mind?</h2><div class="rail">${[...new Set(R.map(r=>r.cui))].map(c=>{const r=R.find(x=>x.cui==c);return `<button class="tile" data-act="cui" data-c="${c}"><span style="background:${hue(r.id+3)}">${art(menu(r)[0])}</span>${c}</button>`}).join('')}</div>
+<h2>Top restaurants</h2><div class="rail">${pr.map(rcard).join('')}</div><div class="row"><h2>Restaurants to explore</h2><button class="btn alt sm" data-act="go" data-v="restaurants">See all</button></div><div class="rgrid">${R.slice(6,14).map(rcard).join('')}</div>
+<h2>Popular food</h2><div class="grid">${D.filter(f=>f.pop).slice(0,8).map(f=>fcard(f)).join('')}</div>
+<div class="cols"><div><h2>Recent orders</h2>${S.user?(rec.length?rec.map(oRow).join(''):'<div class="panel mute">No orders yet. Your first one is a tap away.</div>'):'<div class="panel mute">Log in to see your orders.</div>'}</div>
+<div><h2>Cart summary</h2><div class="panel">${count()?`<div class="tot"><span>${count()} item(s)</span><b>${inr(sub())}</b></div><button class="btn" data-act="go" data-v="cart">View cart</button>`:'<span class="mute">Your cart is empty. Add something tasty.</span>'}</div></div></div>`},
+restaurants(){const cats=['All',...new Set(R.map(r=>r.cui))],F=S.flt,fl=[['fast','Fast delivery'],['r45','Rating 4.5+'],['veg','Pure veg'],['u300','Under ₹300 for one']];
+return `<h1>Restaurants to explore</h1><div class="bar"><input id="q" placeholder="Search restaurants or cuisines" value="${esc(S.q)}" aria-label="Search restaurants"><select data-sel="sort" aria-label="Sort by"><option value="rel">Relevance</option><option value="rt" ${S.sort=='rt'?'selected':''}>Rating</option><option value="eta" ${S.sort=='eta'?'selected':''}>Delivery time</option></select></div><div class="chiprow">${fl.map(([k,t])=>`<button class="chip ${F[k]?'on':''}" data-act="flt" data-k="${k}">${t}</button>`).join('')}</div><div class="chiprow">${cats.map(c=>`<button class="chip ${S.cat==c?'on':''}" data-act="cat" data-c="${c}">${c}</button>`).join('')}</div><div id="res" class="rgrid">${resR()}</div>`},
+rest(){const r=rr(S.rid),m=menu(r).filter(f=>!S.vo||f.t!='non');
+return `<button class="btn alt sm" data-act="go" data-v="restaurants">← Back</button><div class="rh"><h1>${r.n}</h1><div class="rm"><span class="rate">★ ${r.rt}</span> · ₹${avg(r)} for one</div><div class="mute">${r.cui}</div><div class="mute">⏱ ${r.eta} mins · Delivery ${inr(FEE)}</div><div class="offs"><span class="off2">🏷️ ${off(r)}</span><span class="off2">💳 10% off with UPI</span></div></div><div class="row"><h2>Menu</h2><button class="chip ${S.vo?'on':''}" data-act="vo">🟢 Veg only</button></div>${m.length?m.map(mrow).join(''):'<p class="mute">No veg items here.</p>'}`},
+dishes(){return `<h1>Food</h1><div class="bar"><input id="q" placeholder="Search dishes or restaurants" value="${esc(S.q)}" aria-label="Search food"><select data-sel="price" aria-label="Price"><option value="All">Any price</option><option value="u" ${S.price=='u'?'selected':''}>Under ₹150</option><option value="m" ${S.price=='m'?'selected':''}>₹150 – ₹300</option><option value="h" ${S.price=='h'?'selected':''}>Above ₹300</option></select></div><div class="bar">${['All','veg','non','sweet'].map(t=>`<button class="chip ${S.type==t?'on':''}" data-act="type" data-t="${t}">${TL[t]||'All'}</button>`).join('')}</div><div id="res" class="grid">${resD()}</div>`},
+cart(){const it=cartItems();if(!it.length)return `<h1>Your cart</h1><div class="panel mute">Nothing here yet. <button class="btn sm" data-act="go" data-v="dishes">Browse food</button></div>`;
+return `<h1>Your cart</h1><div class="cols"><div class="panel">${it.map(({f,q})=>`<div class="cartrow"><span style="width:56px;height:48px;display:block;background:${hue(f.id)};border-radius:12px">${art(f)}</span><div><b>${f.n}</b><div class="mute">${rr(f.r).n} · ${inr(f.p)}</div></div><div class="qty"><button data-act="dec" data-id="${f.id}" aria-label="Decrease">−</button>${q}<button data-act="inc" data-id="${f.id}" aria-label="Increase">+</button></div><b>${inr(f.p*q)}<button class="btn sm alt" style="margin-left:8px" data-act="rm" data-id="${f.id}">Remove</button></b></div>`).join('')}</div>${sum()}</div>`},
+checkout(){if(!S.user)return V.login();const u=S.user;return `<h1>Checkout</h1><div class="cols"><div class="panel"><label><b>Delivery address</b></label><textarea id="addr" rows="3" placeholder="Flat no, building, street, area, pincode"></textarea><label style="margin-top:10px;display:block"><b>Phone number</b></label><input id="ph" value="${esc(u.phone)}" inputmode="tel"><p class="err">${S.msg}</p><button class="btn" data-act="place">Place order</button></div>${sum(1)}</div>`},
+orders(){if(!S.user)return V.login();const o=orders().reverse(),cur=o.filter(x=>stage(x)<3),his=o.filter(x=>stage(x)==3);
+return `<h1>Orders</h1><h2>Current order</h2>${cur.length?cur.map(oRow).join(''):'<div class="panel mute">No active orders.</div>'}<h2>Order history</h2>${his.length?his.map(oRow).join(''):'<div class="panel mute">Delivered orders will appear here.</div>'}`},
+login(){return `<div class="panel auth"><h1>Welcome back</h1><label>Email<input id="em" type="email" autocomplete="email"></label><label>Password<input id="pw" type="password" autocomplete="current-password"></label><p class="err">${S.msg}</p><button class="btn" data-act="login">Log in</button><button class="btn alt" data-act="go" data-v="register">New here? Sign up</button></div>`},
+register(){return `<div class="panel auth"><h1>Join AlixEat</h1><label>Name<input id="nm" autocomplete="name"></label><label>Email<input id="em" type="email" autocomplete="email"></label><label>Phone number<input id="ph" inputmode="tel" autocomplete="tel"></label><label>Password (6+ characters)<input id="pw" type="password" autocomplete="new-password"></label><p class="err">${S.msg}</p><button class="btn" data-act="reg">Create account</button><button class="btn alt" data-act="go" data-v="login">Have an account? Log in</button></div>`}
+};
+function sum(co){const s=sub();return `<div class="panel"><h3>Order summary</h3>${co?cartItems().map(({f,q})=>`<div class="tot"><span>${q} × ${f.n}</span><span>${inr(f.p*q)}</span></div>`).join(''):''}<div class="tot"><span>Subtotal</span><span>${inr(s)}</span></div><div class="tot"><span>Delivery</span><span>${inr(FEE)}</span></div><div class="tot big"><span>Total</span><span>${inr(s+FEE)}</span></div>${co?'':'<button class="btn" style="width:100%;margin-top:10px" data-act="checkout">Checkout</button>'}</div>`}
+function oRow(o){const s=stage(o);return `<div class="panel" style="margin-bottom:12px"><div class="row"><b>Order #${o.id}</b><span class="tag">${STAGES[s]}</span><b>${inr(o.total)}</b></div><div class="track">${STAGES.map((t,i)=>`<div class="${i<=s?'done':''}">${t}</div>`).join('')}</div><button class="btn sm alt" data-act="det" data-id="${o.id}">${S.det[o.id]?'Hide':'View'} details</button>${S.det[o.id]?`<div style="margin-top:10px">${o.items.map(i=>`<div class="tot"><span>${i.q} × ${i.n}</span><span>${inr(i.p*i.q)}</span></div>`).join('')}<div class="mute">📍 ${esc(o.addr)} · 📞 ${esc(o.phone)} · ${new Date(o.ts).toLocaleString()}</div></div>`:''}</div>`}
+function resR(){const q=S.q.toLowerCase(),F=S.flt;let l=R.filter(r=>(S.cat=='All'||r.cui==S.cat)&&(r.n+' '+r.cui).toLowerCase().includes(q)&&(!F.fast||em(r)<=25)&&(!F.r45||r.rt>=4.5)&&(!F.veg||pureVeg(r))&&(!F.u300||avg(r)<300));if(S.sort=='rt')l.sort((a,b)=>b.rt-a.rt);if(S.sort=='eta')l.sort((a,b)=>em(a)-em(b));return l.length?l.map(rcard).join(''):'<p class="mute">No restaurants match. Try removing a filter.</p>'}
+function resD(){const q=S.q.toLowerCase(),l=D.filter(f=>(S.type=='All'||f.t==S.type)&&(S.price=='All'||(S.price=='u'?f.p<150:S.price=='m'?f.p>=150&&f.p<=300:f.p>300))&&(f.n+f.d+rr(f.r).n).toLowerCase().includes(q));return l.length?l.map(f=>fcard(f)).join(''):'<p class="mute">No dishes match. Try a different search or price.</p>'}
+
+/* ---------- App logic ---------- */
+function render(){nav();$('#app').innerHTML=(V[S.v]||V.home)()}
+function go(v,keep){S.v=v;if(!keep)S.msg='';if(v!='restaurants'&&v!='dishes'){}render();scrollTo(0,0)}
+const save=()=>{st.set('cart',S.cart);nav()};
+function need(){if(S.user)return true;S.msg='Please log in to continue.';go('login',1);return false}
+function dish(id){const f=dd(id),r=rr(f.r);$('#modal').innerHTML=`<div class="modal" data-act="close"><div class="card" role="dialog" aria-label="${f.n}"><div class="pic" style="background:${hue(f.id)}">${art(f)}</div><div class="body"><h2 style="margin:0">${f.n}</h2><div class="mute">from <a href="#" data-act="rest" data-id="${r.id}" style="color:var(--chili);font-weight:800">${r.n}</a> · ${TL[f.t]}</div><p>${f.d}</p><div class="row"><b style="font-size:1.4rem">${inr(f.p)}</b>${f.a?`<button class="btn" data-act="add" data-id="${f.id}">Add to cart</button>`:'<span class="tag">Currently unavailable</span>'}</div></div></div></div>`}
+async function act(a,d,ev){switch(a){
+case'go':S.q='';S.flt={};S.sort='rel';S.cat='All';S.type='All';S.price='All';go(d.v);break;case'hsearch':S.q=($('#hq').value||'').trim();S.type='All';S.price='All';go('dishes');break;case'qs':S.q=d.q;S.type='All';S.price='All';go('dishes');break;case'cui':S.q='';S.flt={};S.cat=d.c;go('restaurants');break;case'flt':S.flt[d.k]=!S.flt[d.k];render();break;case'vo':S.vo=!S.vo;render();break;
+case'rest':ev.preventDefault();S.rid=+d.id;$('#modal').innerHTML='';go('rest');break;
+case'dish':dish(+d.id);break;
+case'close':if(ev.target.dataset.act=='close')$('#modal').innerHTML='';break;
+case'add':S.cart[d.id]=(S.cart[d.id]||0)+1;save();toast('Added '+dd(d.id).n);if(S.v=='cart'||S.v=='rest')render();break;
+case'inc':S.cart[d.id]++;save();render();break;
+case'dec':if(--S.cart[d.id]<1)delete S.cart[d.id];save();render();break;
+case'rm':delete S.cart[d.id];save();render();break;
+case'cat':S.cat=d.c;render();break;
+case'type':S.type=d.t;render();break;
+case'det':S.det[d.id]=!S.det[d.id];render();break;
+case'checkout':if(need())go('checkout');break;
+case'logout':{
+ try{await fetch('/api/logout',{method:'POST'});}catch(e){}
+ S.user=null;
+ st.set('session',null);
+ toast('Logged out');
+ go('home');
+ break;
+}
+case'reg':{
+ const n=$('#nm').value.trim(),
+       e=$('#em').value.trim().toLowerCase(),
+       p=$('#ph').value.replace(/\D/g,''),
+       w=$('#pw').value;
+
+ S.msg=!n?'Enter your name.':
+       !/^\S+@\S+\.\S+$/.test(e)?'Enter a valid email.':
+       p.length<10?'Enter a 10-digit phone number.':
+       w.length<6?'Password needs 6+ characters.':'';
+
+ if(S.msg){render();break}
+
+ try{
+   const response=await fetch('/api/register',{
+     method:'POST',
+     headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({name:n,email:e,phone:p,password:w})
+   });
+
+   const data=await response.json();
+
+   if(!response.ok || !data.success){
+     S.msg=data.message||'Registration failed.';
+     render();
+     break;
+   }
+
+   S.msg='Registration successful. Please log in.';
+   go('login',1);
+ }catch(error){
+   console.error(error);
+   S.msg='Cannot connect to Flask server.';
+   render();
+ }
+ break;
+}
+case'login':{
+ const e=$('#em').value.trim().toLowerCase(),
+       w=$('#pw').value;
+
+ if(!e||!w){
+   S.msg='Enter your email and password.';
+   render();
+   break;
+ }
+
+ try{
+   const response=await fetch('/api/login',{
+     method:'POST',
+     headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({email:e,password:w})
+   });
+
+   const data=await response.json();
+
+   if(!response.ok || !data.success){
+     S.msg=data.message||'Email or password is incorrect.';
+     render();
+     break;
+   }
+
+   S.user=data.user;
+   st.set('session',S.user);
+   S.msg='';
+   toast('Welcome back, '+S.user.name.split(' ')[0]+'!');
+   go(count()?'cart':'home');
+ }catch(error){
+   console.error(error);
+   S.msg='Cannot connect to Flask server.';
+   render();
+ }
+ break;
+}
+case'place':{const ad=$('#addr').value.trim(),ph=$('#ph').value.replace(/\D/g,'');
+ if(ad.length<10||ph.length<10){S.msg=ad.length<10?'Enter your full delivery address.':'Enter a 10-digit phone number.';render();break}
+ const o={id:Math.floor(Math.random()*9e5+1e5),uid:S.user.id,ts:Date.now(),addr:ad,phone:ph,total:sub()+FEE,items:cartItems().map(x=>({n:x.f.n,p:x.f.p,q:x.q}))};
+ st.set('orders',[...st.get('orders',[]),o]);S.cart={};save();toast('Order placed!');go('orders');break}
+}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t)act(t.dataset.act,t.dataset,e)});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.matches('[role=button]'))e.target.click();if(e.key=='Enter'&&e.target.id=='hq')act('hsearch',{},e);if(e.key=='Escape')$('#modal').innerHTML=''});
+document.addEventListener('input',e=>{if(e.target.id=='q'){S.q=e.target.value;$('#res').innerHTML=S.v=='dishes'?resD():resR()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.sel;if(k){S[k]=e.target.value;render()}});
+setInterval(()=>{if(S.v=='orders'||S.v=='home')render()},STEP/5);
+
+async function loadBackendData(){
+  try{
+    const [restaurantResponse, foodResponse] = await Promise.all([
+      fetch('/api/restaurants'),
+      fetch('/api/food')
+    ]);
+
+    if(!restaurantResponse.ok || !foodResponse.ok){
+      throw new Error('Backend API request failed');
+    }
+
+    const restaurantData = await restaurantResponse.json();
+    const foodData = await foodResponse.json();
+
+    const restaurants = restaurantData.restaurants || restaurantData.data || [];
+    const foods = foodData.food || foodData.food_items || foodData.data || [];
+
+    if(Array.isArray(restaurants) && restaurants.length){
+      R = restaurants.map(r => ({
+        id: Number(r.id),
+        n: r.name ?? r.n ?? '',
+        cui: r.category ?? r.cui ?? 'Other',
+        e: r.emoji ?? r.e ?? '🍽️',
+        rt: Number(r.rating ?? r.rt ?? 0),
+        eta: String(r.eta_minutes ?? r.eta ?? '30-40'),
+        about: r.description ?? r.about ?? ''
+      }));
+    }
+
+    if(Array.isArray(foods) && foods.length){
+      D = foods.map(f => ({
+        id: Number(f.id),
+        r: Number(f.restaurant_id ?? f.r),
+        n: f.name ?? f.n ?? '',
+        d: f.description ?? f.d ?? '',
+        p: Number(f.price ?? f.p ?? 0),
+        e: f.emoji ?? f.e ?? '🍽️',
+        t: f.category ?? f.t ?? 'other',
+        a: Number(f.available ?? f.a ?? 0),
+        pop: Number(f.popular ?? f.pop ?? 0)
+      }));
+    }
+
+    console.log('AlixEats: restaurant data loaded from MySQL', R.length);
+    console.log('AlixEats: food data loaded from MySQL', D.length);
+
+    render();
+  }catch(error){
+    console.error('Could not load restaurant/food data from Flask:', error);
+    console.warn('Using the existing frontend data as fallback.');
+    render();
+  }
+}
+
+async function restoreSession(){
+ try{
+   const response=await fetch('/api/me');
+   const data=await response.json();
+
+   if(data.logged_in && data.user){
+     S.user=data.user;
+     st.set('session',S.user);
+   }else{
+     S.user=null;
+     st.set('session',null);
+   }
+ }catch(error){
+   console.warn('Could not restore Flask session:',error);
+ }
+
+ render();
+}
+
+loadBackendData();
+restoreSession();
+</script>
+</body>
+</html>
